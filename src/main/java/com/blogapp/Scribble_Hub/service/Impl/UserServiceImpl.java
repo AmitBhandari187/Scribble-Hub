@@ -45,17 +45,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserById(Long userId) {
-        return null;
+        User user =this.userRepository.findById(userId).orElseThrow(()->new ResourceNotFoundException("user","id",userId));
+        return this.userToDto(user);
     }
 
     @Override
     public List<UserDTO> getAllUser() {
-        return List.of();
+        List<User> users=this.userRepository.findAll();
+        List <UserDTO> userDtos=users.stream().map(this::userToDto).toList();
+
+        return userDtos;
     }
 
     @Override
     public void deleteUser(Long userId) {
-
+        User user = this.userRepository.findById(userId).orElseThrow(()-> new ResourceNotFoundException("user","id",userId));
+        this.userRepository.delete(user);
     }
 
 //    For user data to database
