@@ -74,15 +74,17 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 //    For Database to User Response
-    private UserDTO userToDto(User user){
-        UserDTO userDTO=new UserDTO();
-        userDTO.setId(user.getId());
-        userDTO.setName(user.getName());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setPassword(user.getPassword());
-        userDTO.setAbout(user.getAbout());
-        return null;
-    }
+private UserDTO userToDto(User user){
+    UserDTO userDTO = new UserDTO();
+
+    userDTO.setId(user.getId());
+    userDTO.setName(user.getName());
+    userDTO.setEmail(user.getEmail());
+    userDTO.setPassword(user.getPassword());
+    userDTO.setAbout(user.getAbout());
+
+    return userDTO;
+}
 
 
 }
