@@ -2,6 +2,7 @@ package com.blogapp.Scribble_Hub.controllers;
 
 import com.blogapp.Scribble_Hub.payloads.UserDTO;
 import com.blogapp.Scribble_Hub.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class UserController {
 
     //Create User -----
     @PostMapping("/")
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO){
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO){
         UserDTO createduserDto=this.userService.createUser(userDTO);
         return new ResponseEntity<>(createduserDto, HttpStatus.CREATED);
     }
