@@ -1,5 +1,6 @@
 package com.blogapp.Scribble_Hub.controllers;
 
+import com.blogapp.Scribble_Hub.payloads.ApiResponse;
 import com.blogapp.Scribble_Hub.payloads.UserDTO;
 import com.blogapp.Scribble_Hub.service.UserService;
 import jakarta.validation.Valid;
@@ -41,8 +42,7 @@ public class UserController {
 
         this.userService.deleteUser(userId);
 
-        return new ResponseEntity<>(
-                Map.of("message", "User Deleted Successfully!!"),
+        return new ResponseEntity<>(new ApiResponse("User deleted successfully!!",true),
                 HttpStatus.OK
         );
     }
