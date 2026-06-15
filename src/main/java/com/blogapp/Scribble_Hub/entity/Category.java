@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -19,4 +22,8 @@ public class Category {
     private String categoryTitle;
     @Column()
     private String categoryDescription;
+
+    // Created because one category can contain multiple posts
+    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
+    private List<Post> posts=new ArrayList<>();
 }
