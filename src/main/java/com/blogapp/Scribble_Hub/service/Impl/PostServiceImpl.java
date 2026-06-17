@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -59,7 +60,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> getAllPosts() {
+    public List<PostDTO> getAllPosts() {
         return List.of();
     }
 
@@ -69,17 +70,26 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> findByCategory(Long categoryId) {
-        return List.of();
+    public List<PostDTO> findByCategory(Long categoryId) {
+        Category cat=this.categoryRepository.findById(categoryId).orElseThrow(()->new ResourceNotFoundException("category","category id",categoryId));
+        List<Post> posts= this.postRepository.findByCategory(cat);
+
+        List<PostDTO> postDTOS=posts.stream().map((post )-> this.modelMapper.map(post,PostDTO.class)).collect(Collectors.toList());
+        return postDTOS;
     }
 
     @Override
-    public List<Post> findByUser(Long userId) {
-        return List.of();
+    public List<PostDTO> findByUser(Long userId) {
+        User user=this.userRepository.findById(userId).orElseThrow(()->new ResourceNotFoundException("user","user id",userId));
+
+        List<Post> posts=this.postRepository.findByUser(user);
+
+        List<PostDTO> postDTOS=posts.stream().map((post) -> this.modelMapper.map(post,PostDTO.class)).collect(Collectors.toList());
+        return postDTOS;
     }
 
     @Override
-    public List<Post> searchPosts(String keyword) {
+    public List<PostDTO> searchPosts(String keyword) {
         return List.of();
     }
 

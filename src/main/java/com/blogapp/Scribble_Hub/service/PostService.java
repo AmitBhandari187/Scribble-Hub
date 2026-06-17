@@ -9,15 +9,15 @@ public interface PostService {
     PostDTO createPost(PostDTO postDTO ,Long userId,Long categoryId);
     Post updatePost(PostDTO postDTO , Long postId);
     void deletePost(Long postId);
-    List<Post> getAllPosts();
+    List<PostDTO> getAllPosts();
     Post getPostById(Long postId);
 
     // Now get posts by category
-    List<Post> findByCategory(Long categoryId);
+    List<PostDTO> findByCategory(Long categoryId);
 
     // Now get all posts by user
-    List<Post> findByUser(Long userId);
+    List<PostDTO> findByUser(Long userId);
 
     // Search posts by keyword
-    List<Post> searchPosts(String keyword);
+    List<PostDTO> searchPosts(String keyword);
 }
