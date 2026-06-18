@@ -7,10 +7,10 @@ import java.util.List;
 
 public interface PostService {
     PostDTO createPost(PostDTO postDTO ,Long userId,Long categoryId);
-    Post updatePost(PostDTO postDTO , Long postId);
+    PostDTO updatePost(PostDTO postDTO , Long postId);
     void deletePost(Long postId);
     List<PostDTO> getAllPosts();
-    Post getPostById(Long postId);
+    PostDTO getPostById(Long postId);
 
     // Now get posts by category
     List<PostDTO> findByCategory(Long categoryId);

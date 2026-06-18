@@ -1,6 +1,7 @@
 package com.blogapp.Scribble_Hub.controllers;
 
 import com.blogapp.Scribble_Hub.entity.Post;
+import com.blogapp.Scribble_Hub.payloads.ApiResponse;
 import com.blogapp.Scribble_Hub.payloads.PostDTO;
 import com.blogapp.Scribble_Hub.service.CategoryService;
 import com.blogapp.Scribble_Hub.service.Impl.PostServiceImpl;
@@ -39,6 +40,30 @@ public class PostController {
     public ResponseEntity<List<PostDTO>> getPostsByCategory(@PathVariable Long categoryId){
         List<PostDTO> categoryPosts=this.postService.findByCategory(categoryId);
         return new ResponseEntity<List<PostDTO>>(categoryPosts,HttpStatus.OK);
+    }
+
+    @GetMapping("/posts/{postId}")
+    public ResponseEntity<PostDTO> getPostById(@PathVariable Long postId){
+        PostDTO postDTO=this.postService.getPostById(postId);
+        return new ResponseEntity<PostDTO>(postDTO,HttpStatus.OK);
+    }
+
+    @GetMapping("/posts")
+    public ResponseEntity<List<PostDTO>> getAllPosts(){
+        List<PostDTO> allPosts=this.postService.getAllPosts();
+        return new ResponseEntity<List<PostDTO>>(allPosts,HttpStatus.OK);
+    }
+
+    @DeleteMapping("/posts/{postId}")
+    public ResponseEntity<?> deletePost(@PathVariable Long postId){
+        this.postService.deletePost(postId);
+        return new ResponseEntity<>(new ApiResponse("Post deleted successfully",true),HttpStatus.OK);
+    }
+
+    @PutMapping("posts/{postId}")
+    public ResponseEntity<PostDTO> updatePost(@RequestBody PostDTO postDTO ,@PathVariable Long postId){
+        PostDTO updatedPost=this.postService.updatePost(postDTO,postId);
+        return new ResponseEntity<>(updatedPost,HttpStatus.OK);
     }
 
 }
