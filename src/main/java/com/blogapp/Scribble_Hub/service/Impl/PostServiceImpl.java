@@ -5,12 +5,14 @@ import com.blogapp.Scribble_Hub.entity.Post;
 import com.blogapp.Scribble_Hub.entity.User;
 import com.blogapp.Scribble_Hub.exceptions.ResourceNotFoundException;
 import com.blogapp.Scribble_Hub.payloads.PostDTO;
-import com.blogapp.Scribble_Hub.payloads.UserDTO;
 import com.blogapp.Scribble_Hub.repositories.CategoryRepository;
 import com.blogapp.Scribble_Hub.repositories.PostRepository;
 import com.blogapp.Scribble_Hub.repositories.UserRepository;
 import com.blogapp.Scribble_Hub.service.PostService;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -66,10 +68,20 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDTO> getAllPosts() {
-        List<Post> getAllPost=this.postRepository.findAll();
-        List<PostDTO> allPosts=getAllPost.stream().map((post )-> this.modelMapper.map(post,PostDTO.class)).collect(Collectors.toList());
-        return allPosts;
+    public List<PostDTO> getAllPosts(Integer pageNumber, Integer pageSize) {
+
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+
+        Page<Post> pagePost = this.postRepository.findAll(pageable);
+
+        List<Post> allPosts = pagePost.getContent();
+
+        List<PostDTO> postDTOs = allPosts.stream()
+                .map(post -> this.modelMapper.map(post, PostDTO.class))
+                .collect(Collectors.toList());
+
+        return postDTOs;
     }
 
     @Override

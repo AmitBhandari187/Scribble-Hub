@@ -9,7 +9,7 @@ public interface PostService {
     PostDTO createPost(PostDTO postDTO ,Long userId,Long categoryId);
     PostDTO updatePost(PostDTO postDTO , Long postId);
     void deletePost(Long postId);
-    List<PostDTO> getAllPosts();
+    List<PostDTO> getAllPosts(Integer pageNumber, Integer pageSize);
     PostDTO getPostById(Long postId);
 
     // Now get posts by category
