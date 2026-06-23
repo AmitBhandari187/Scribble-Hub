@@ -1,18 +1,14 @@
 package com.blogapp.Scribble_Hub.controllers;
 
-import com.blogapp.Scribble_Hub.entity.Category;
 import com.blogapp.Scribble_Hub.payloads.ApiResponse;
 import com.blogapp.Scribble_Hub.payloads.CategoryDTO;
 import com.blogapp.Scribble_Hub.service.CategoryService;
-import com.blogapp.Scribble_Hub.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/categories")

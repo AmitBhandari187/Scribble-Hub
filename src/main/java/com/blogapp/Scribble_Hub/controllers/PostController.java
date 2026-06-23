@@ -3,6 +3,7 @@ package com.blogapp.Scribble_Hub.controllers;
 import com.blogapp.Scribble_Hub.entity.Post;
 import com.blogapp.Scribble_Hub.payloads.ApiResponse;
 import com.blogapp.Scribble_Hub.payloads.PostDTO;
+import com.blogapp.Scribble_Hub.payloads.PostResponse;
 import com.blogapp.Scribble_Hub.service.CategoryService;
 import com.blogapp.Scribble_Hub.service.Impl.PostServiceImpl;
 import com.blogapp.Scribble_Hub.service.PostService;
@@ -31,15 +32,24 @@ public class PostController {
 
     //Get user posts
     @GetMapping("/user/{userId}/posts")
-    public ResponseEntity<List<PostDTO>> getPostsByUser(@PathVariable Long userId){
-        List<PostDTO> userPosts=this.postService.findByUser(userId);
-        return new ResponseEntity<List<PostDTO>>(userPosts,HttpStatus.OK);
+    public ResponseEntity<PostResponse> getPostsByUser(
+            @PathVariable Long userId,
+            @RequestParam (value="pageNumber",defaultValue = "0",required = false)Integer pageNumber,
+            @RequestParam(value = "pageSize",defaultValue = "10",required = false)Integer pageSize
+    ){
+        PostResponse userPosts=this.postService.findByUser(userId,pageNumber,pageSize);
+        return new ResponseEntity<PostResponse>(userPosts,HttpStatus.OK);
     }
 
     @GetMapping("/category/{categoryId}/posts")
-    public ResponseEntity<List<PostDTO>> getPostsByCategory(@PathVariable Long categoryId){
-        List<PostDTO> categoryPosts=this.postService.findByCategory(categoryId);
-        return new ResponseEntity<List<PostDTO>>(categoryPosts,HttpStatus.OK);
+    public ResponseEntity<PostResponse> getPostsByCategory(
+            @PathVariable Long categoryId,
+            @RequestParam (value="pageNumber",defaultValue = "0",required = false)Integer pageNumber,
+            @RequestParam(value = "pageSize",defaultValue = "10",required = false)Integer pageSize
+
+    ){
+        PostResponse categoryPosts=this.postService.findByCategory(categoryId,pageNumber,pageSize);
+        return new ResponseEntity<PostResponse>(categoryPosts,HttpStatus.OK);
     }
 
     @GetMapping("/posts/{postId}")
@@ -49,12 +59,12 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    public ResponseEntity<List<PostDTO>> getAllPosts(
-            @RequestParam (value="pageNumber",defaultValue = "1",required = false)Integer pageNumber,
-            @RequestParam(value = "pageSize",defaultValue = "5",required = false)Integer pageSize
+    public ResponseEntity<PostResponse> getAllPosts(
+            @RequestParam (value="pageNumber",defaultValue = "0",required = false)Integer pageNumber,
+            @RequestParam(value = "pageSize",defaultValue = "10",required = false)Integer pageSize
             ){
-        List<PostDTO> allPosts=this.postService.getAllPosts(pageNumber , pageSize);
-        return new ResponseEntity<List<PostDTO>>(allPosts,HttpStatus.OK);
+        PostResponse postResponse=this.postService.getAllPosts(pageNumber , pageSize);
+        return new ResponseEntity<PostResponse>(postResponse,HttpStatus.OK);
     }
 
     @DeleteMapping("/posts/{postId}")

@@ -1,7 +1,7 @@
 package com.blogapp.Scribble_Hub.service;
 
-import com.blogapp.Scribble_Hub.entity.Post;
 import com.blogapp.Scribble_Hub.payloads.PostDTO;
+import com.blogapp.Scribble_Hub.payloads.PostResponse;
 
 import java.util.List;
 
@@ -9,14 +9,14 @@ public interface PostService {
     PostDTO createPost(PostDTO postDTO ,Long userId,Long categoryId);
     PostDTO updatePost(PostDTO postDTO , Long postId);
     void deletePost(Long postId);
-    List<PostDTO> getAllPosts(Integer pageNumber, Integer pageSize);
+    PostResponse getAllPosts(Integer pageNumber, Integer pageSize);
     PostDTO getPostById(Long postId);
 
     // Now get posts by category
-    List<PostDTO> findByCategory(Long categoryId);
+    PostResponse findByCategory(Long categoryId, Integer pageNumber, Integer pageSize);
 
     // Now get all posts by user
-    List<PostDTO> findByUser(Long userId);
+    PostResponse findByUser(Long userId,Integer pageNumber , Integer pageSize);
 
     // Search posts by keyword
     List<PostDTO> searchPosts(String keyword);
