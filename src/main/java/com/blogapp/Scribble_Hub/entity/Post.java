@@ -30,5 +30,6 @@ public class Post {
     private Category category;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 }
