@@ -1,5 +1,6 @@
 package com.blogapp.Scribble_Hub.controllers;
 
+import com.blogapp.Scribble_Hub.config.AppConstants;
 import com.blogapp.Scribble_Hub.entity.Post;
 import com.blogapp.Scribble_Hub.payloads.ApiResponse;
 import com.blogapp.Scribble_Hub.payloads.PostDTO;
@@ -60,10 +61,10 @@ public class PostController {
 
     @GetMapping("/posts")
     public ResponseEntity<PostResponse> getAllPosts(
-            @RequestParam (value="pageNumber",defaultValue = "0",required = false)Integer pageNumber,
-            @RequestParam(value = "pageSize",defaultValue = "10",required = false)Integer pageSize,
-            @RequestParam(value = "sortBy",defaultValue ="postId",required = false )String sortBy,
-            @RequestParam(value = "sortDirection",defaultValue = "ASC",required = false)String sortDirection
+            @RequestParam (value="pageNumber",defaultValue = AppConstants.PAGE_NUMBER,required = false)Integer pageNumber,
+            @RequestParam(value = "pageSize",defaultValue = AppConstants.PAGE_SIZE,required = false)Integer pageSize,
+            @RequestParam(value = "sortBy",defaultValue =AppConstants.SORT_BY,required = false )String sortBy,
+            @RequestParam(value = "sortDirection",defaultValue = AppConstants.SORT_DIR,required = false)String sortDirection
             ){
         PostResponse postResponse=this.postService.getAllPosts(pageNumber , pageSize, sortBy,sortDirection);
         return new ResponseEntity<PostResponse>(postResponse,HttpStatus.OK);
@@ -75,10 +76,16 @@ public class PostController {
         return new ResponseEntity<>(new ApiResponse("Post deleted successfully",true),HttpStatus.OK);
     }
 
-    @PutMapping("posts/{postId}")
+    @PutMapping("/posts/{postId}")
     public ResponseEntity<PostDTO> updatePost(@RequestBody PostDTO postDTO ,@PathVariable Long postId){
         PostDTO updatedPost=this.postService.updatePost(postDTO,postId);
         return new ResponseEntity<>(updatedPost,HttpStatus.OK);
+    }
+
+    @GetMapping("/posts/search/{keywords}")
+    public ResponseEntity<List<PostDTO>> searchPost(@PathVariable("keywords") String keywords){
+        List<PostDTO> result=this.postService.searchPosts(keywords);
+        return new ResponseEntity<List<PostDTO>>(result,HttpStatus.OK);
     }
 
 }
