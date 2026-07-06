@@ -3,25 +3,34 @@ package com.blogapp.Scribble_Hub.controllers;
 import com.blogapp.Scribble_Hub.config.AppConstants;
 import com.blogapp.Scribble_Hub.entity.Post;
 import com.blogapp.Scribble_Hub.payloads.ApiResponse;
+import com.blogapp.Scribble_Hub.payloads.ImageResponse;
 import com.blogapp.Scribble_Hub.payloads.PostDTO;
 import com.blogapp.Scribble_Hub.payloads.PostResponse;
 import com.blogapp.Scribble_Hub.service.CategoryService;
+import com.blogapp.Scribble_Hub.service.FileService;
 import com.blogapp.Scribble_Hub.service.Impl.PostServiceImpl;
 import com.blogapp.Scribble_Hub.service.PostService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/")
 public class PostController {
     private PostService postService;
-    public PostController(PostService postService) {
+    private FileService fileService;
+    @Value("${project.image}")
+    private String path;
+    public PostController(PostService postService, FileService fileService) {
 
         this.postService = postService;
+        this.fileService=fileService;
     }
 
     // create posts
@@ -88,4 +97,11 @@ public class PostController {
         return new ResponseEntity<List<PostDTO>>(result,HttpStatus.OK);
     }
 
+    //post image upload
+    @PostMapping("/posts/image/upload/{postId}")
+    public ResponseEntity<ImageResponse> uploadPostImage(@RequestParam("image")MultipartFile image) throws IOException {
+        String fileName =this.fileService.uploadImage(path,image);
+
+        return new ResponseEntity<>(new ImageResponse(fileName,"Image is succesfully uploaded"),HttpStatus.OK);
+    }
 }
