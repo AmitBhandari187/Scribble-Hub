@@ -29,11 +29,12 @@ public class CommentServiceImpl implements CommentService {
         this.commentRepository = commentRepository;
         this.postRepository = postRepository;
         this.userRepository = userRepository;
+        this.modelMapper=modelMapper;
     }
 
 
     @Override
-    public CommentDTO createComment(CommentDTO commentDTO, Long postId, Long userId) {
+    public CommentDTO createComment(CommentDTO commentDTO, Long userId, Long postId) {
         Post post=postRepository.findById(postId).orElseThrow(()->new ResourceNotFoundException("Post","post id",postId));
         User user = userRepository.findById(userId)
                 .orElseThrow(() ->

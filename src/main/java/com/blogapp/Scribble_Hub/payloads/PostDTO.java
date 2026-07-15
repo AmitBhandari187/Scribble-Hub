@@ -23,6 +23,6 @@ public class PostDTO {
     private CategoryDTO category;
     private UserDTO user;
 
-    private Set<Comment> comments=new HashSet<>();
+    private Set<CommentDTO> comments=new HashSet<>();
 
 }
